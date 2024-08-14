@@ -10,4 +10,7 @@ class Toy(models.Model):
      was_included_in_home = models.BooleanField(default=False)
      
      class Meta:
-          ordering = ('name',)
+          ordering = ("name",)
+
+     def __str__(self):
+          return self.name
