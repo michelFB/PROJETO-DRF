@@ -16,14 +16,8 @@ class ToySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.description = validated_data.get("description", instance.description)
-        instance.release_date = validated_data.get(
-            "release_date", instance.release_date
-        )
-        instance.toy_category = validated_data.get(
-            "toy_category", instance.toy_category
-        )
-        instance.was_included_in_home = validated_data.get(
-            "was_included_in_home", instance.was_included_in_home
-        )
+        instance.release_date = validated_data.get("release_date", instance.release_date)
+        instance.toy_category = validated_data.get("toy_category", instance.toy_category)
+        instance.was_included_in_home = validated_data.get("was_included_in_home", instance.was_included_in_home)
         instance.save()
         return instance

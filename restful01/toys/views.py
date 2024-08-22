@@ -7,7 +7,6 @@ from rest_framework import status
 from toys.models import Toy
 from toys.serializers import ToySerializer
 
-
 class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
@@ -18,14 +17,14 @@ class JSONResponse(HttpResponse):
 @csrf_exempt
 def toy_list(request):
     if request.method == "GET":
-        toys = Toy.objects.all()
+        toys = Toy.objects.all() # ORM aqui atuando -> SELECT * FROM toys_toy;
         toys_serializer = ToySerializer(toys, many=True)
         return JSONResponse(toys_serializer.data)
     elif request.method == "POST":
-        toy_data = JSONParser().parse(request)
-        toy_serializer = ToySerializer(data=toy_data)
-        if toy_serializer.is_valid():
-            toy_serializer.save()
+        toy_data = JSONParser().parse(request) #Pega os dados da requisição
+        toy_serializer = ToySerializer(data=toy_data) # serializa os dados
+        if toy_serializer.is_valid(): # verifica se os dados são compatíveis
+            toy_serializer.save() # Salva os dados, criando o Toy_serealizado
             return JSONResponse(toy_serializer.data, status=status.HTTP_201_CREATED)
         return JSONResponse(toy_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -33,7 +32,7 @@ def toy_list(request):
 @csrf_exempt
 def toy_detail(request, pk):
     try:
-        toy = Toy.objects.get(pk=pk)
+        toy = Toy.objects.get(pk=pk) #vai no banco de dados obter o objeto pelo ID
     except Toy.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
