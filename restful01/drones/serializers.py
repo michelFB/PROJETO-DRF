@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from drones.models import DroneCategory, Drone, Competition, Pilot
 
-
 class DroneCategorySerializer(serializers.HyperlinkedModelSerializer):
     drones = serializers.HyperlinkedRelatedField(
         many=True, read_only=True, view_name="drone-detail"
@@ -27,15 +26,12 @@ class DroneSerializer(serializers.HyperlinkedModelSerializer):
             "has_it_competed",
             "inserted_timestamp",
         )
-
-
 class CompetitionSerializer(serializers.HyperlinkedModelSerializer):
     drone = DroneSerializer()
 
     class Meta:
         model = Competition
         fields = ("url", "pk", "distance_in_feet", "distance_achievement_date", "drone")
-
 
 class PilotSerializer(serializers.HyperlinkedModelSerializer):
     competitions = CompetitionSerializer(many=True, read_only=True)
@@ -55,7 +51,6 @@ class PilotSerializer(serializers.HyperlinkedModelSerializer):
             "inserted_timestamp",
             "competitions",
         )
-
 
 class PilotCompetitionSerializer(serializers.ModelSerializer):
     pilot = serializers.SlugRelatedField(
