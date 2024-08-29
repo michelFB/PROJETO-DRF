@@ -31,16 +31,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    #Habilita Django REST framework
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    # Habilita Django REST framework
     "rest_framework",
-    #Habilita Toys application
-    "toys.apps.ToysConfig"
+    # Habilita Toys application
+    "toys.apps.ToysConfig",
+    # Habilita Drones application
+    "drones.apps.DronesConfig",
 ]
 
 MIDDLEWARE = [
