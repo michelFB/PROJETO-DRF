@@ -1,5 +1,7 @@
 from django.db import models
 
+#Utilizando conceitos de PK e FK mantendo relacionamento entre classes
+# esses relacionamentos ajudam o ORM a identificar quando realiza o migrate
 class DroneCategory(models.Model):
     name = models.CharField(max_length=250)
     class Meta:

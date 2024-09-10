@@ -1,68 +1,34 @@
-# from rest_framework import status
-# from drones.models import Drone, Competition, Pilot, DroneCategory
-# from drones.serializers import (
-#     DroneSerializer,
-#     DroneCategorySerializer,
-#     CompetitionSerializer,
-#     PilotCompetitionSerializer,
-#     PilotSerializer,
-# )
-# from rest_framework.decorators import api_view
-# from rest_framework.response import Response
-
-
-# @api_view(["GET", "POST"])
-# def droneCategory_list(request):
-#     if request.method == "GET":
-#         droneCategory = DroneCategory.objects.all()
-#         dronesCategory_serializer = DroneCategorySerializer(droneCategory, many=True)
-#         return Response(dronesCategory_serializer.data)
-
-#     elif request.method == "POST":
-#         dronesCategory_serializer = DroneCategorySerializer(data=request.data)
-#         if dronesCategory_serializer.is_valid():
-#             dronesCategory_serializer.save()
-#             return Response(
-#                 dronesCategory_serializer.data, status=status.HTTP_201_CREATED
-#             )
-#         return Response(
-#             dronesCategory_serializer.errors, status=status.HTTP_400_BAD_REQUEST
-#         )
-
-
-from asyncio import mixins
-from django.shortcuts import render
-from rest_framework import generics
-from drones.models import DroneCategory
-from drones.models import Drone
-from drones.serializers import DroneCategorySerializer
-from drones.serializers import DroneSerializer
-from drones.models import Pilot
-from drones.models import Competition
-from drones.serializers import PilotSerializer
-from drones.serializers import PilotCompetitionSerializer
+from drones.models import Drone, DroneCategory, Pilot, Competition
+from drones.serializers import (
+    DroneSerializer,
+    DroneCategorySerializer,
+    PilotSerializer,
+    PilotCompetitionSerializer,
+)
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import viewsets
-# from rest_framework.decorators import api_view, GenericAPIView
+from rest_framework import generics, viewsets
 
 
+# Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
+# É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
+# ModelViewSet inclui operações de CRUD
 class DroneCategoryViewSet(viewsets.ModelViewSet):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
     name = "dronecategory-viewset"
 
 
-# class DroneCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = DroneCategory.objects.all()
-#     serializer_class = DroneCategorySerializer
-#     name = "dronecategory-detail"
-
-
 class DroneCategoryList(generics.ListCreateAPIView):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
     name = "dronecategory-list"
+
+
+class DroneCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DroneCategory.objects.all()
+    serializer_class = DroneCategorySerializer
+    name = "dronecategory-detail"
 
 
 class DroneList(generics.ListCreateAPIView):
@@ -107,7 +73,7 @@ class ApiRoot(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return Response(
             {
-                "drone-categories": reverse(DroneCategoryViewSet.name, request=request),
+                "drone-categories": reverse(DroneCategoryList.name, request=request),
                 "drones": reverse(DroneList.name, request=request),
                 "pilots": reverse(PilotList.name, request=request),
                 "competitions": reverse(CompetitionList.name, request=request),

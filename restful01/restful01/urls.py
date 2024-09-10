@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("toys.urls")),
-    path("api/", include("drones.urls")),]
+    path("api/", include("drones.urls")), #Incluindo conjunto de rotas de Drones.url
+    ]
