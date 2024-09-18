@@ -3,7 +3,7 @@ from . import views
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 # router = DefaultRouter() #Cria uma pagina especifica que mostra todas as rotas
-router = SimpleRouter()
+router = DefaultRouter()
 router.register(r"drone-categories", views.DroneCategoryViewSet) #Inclui a ViewSET
 router.register(r"drone", views.DroneViewSet)
 router.register(r"pilots", views.PilotViewSet)
