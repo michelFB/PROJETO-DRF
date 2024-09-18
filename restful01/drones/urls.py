@@ -1,9 +1,8 @@
 from django.urls import path, include
 from . import views
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter, SimpleRouter
 
-router = DefaultRouter() #Cria uma pagina especifica que mostra todas as rotas
-router.register(r"drone-categories", views.DroneCategoryViewSet) #Inclui a ViewSET
+router = SimpleRouter() #Cria uma pagina especifica que mostra todas as rotas
 
 urlpatterns = [
     path(
@@ -49,5 +48,3 @@ urlpatterns = [
     path("", include(router.urls)),
     path("", views.ApiRoot.as_view(), name=views.ApiRoot.name),
 ]
-
-urlpatterns += router.urls

@@ -13,10 +13,10 @@ from rest_framework import generics, viewsets
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
 # É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
 # ModelViewSet inclui operações de CRUD
-class DroneCategoryViewSet(viewsets.ModelViewSet):
-    queryset = DroneCategory.objects.all()
-    serializer_class = DroneCategorySerializer
-    name = "dronecategory-viewset"
+# class DroneCategoryViewSet(viewsets.ModelViewSet):
+#     queryset = DroneCategory.objects.all()
+#     serializer_class = DroneCategorySerializer
+#     name = "dronecategory-viewset"
 
 
 class DroneCategoryList(generics.ListCreateAPIView):
