@@ -2,7 +2,7 @@ from django.urls import include, path
 from . import views
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
-# router = DefaultRouter() #Cria uma pagina especifica que mostra todas as rotas
+#Cria uma pagina especifica que mostra todas as rotas
 router = DefaultRouter()
 router.register(r"drone-categories", views.DroneCategoryViewSet) #Inclui a ViewSET
 router.register(r"drone", views.DroneViewSet)
