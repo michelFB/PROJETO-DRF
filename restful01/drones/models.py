@@ -1,16 +1,16 @@
 from django.db import models
 
-#Utilizando conceitos de PK e FK mantendo relacionamento entre classes
+# Utilizando conceitos de PK e FK mantendo relacionamento entre classes
 # esses relacionamentos ajudam o ORM a identificar quando realiza o migrate
 class DroneCategory(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique = True)
     class Meta:
         ordering = ("name",)
     def __str__(self):
         return self.name
 # //-------------------------------------------------------------
 class Drone(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, unique=True)
     drone_category = models.ForeignKey(
         DroneCategory, related_name="drones", on_delete=models.CASCADE
     )
@@ -29,7 +29,7 @@ class Pilot(models.Model):
         (MALE, "Male"),
         (FEMALE, "Female"),
     )
-    name = models.CharField(max_length=150, blank=False, default="")
+    name = models.CharField(max_length=150, blank=False, default="", unique=True)
     gender = models.CharField(
         max_length=2,
         choices=GENDER_CHOICES,
@@ -52,3 +52,16 @@ class Competition(models.Model):
     class Meta:
         # Order by distance in descending order
         ordering = ("-distance_in_feet",)
+
+
+def validate_even(value):
+    if value % 2 != 0:
+        raise models.ValidationError("Este campo deve ser um número par.")
+
+class Person(models.Model):
+    name = models.CharField(max_length=150, blank=False, default="", unique=True)
+    old = models.IntegerField(validators=[validate_even])
+    class Meta:
+        ordering = ("name",)
+    def __str__(self):
+        return self.name

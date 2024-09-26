@@ -1,13 +1,16 @@
-from drones.models import (Drone, DroneCategory, Pilot, Competition)
+from drones.models import (Drone, DroneCategory, Pilot, Competition, Person)
 from drones.serializers import (
     DroneSerializer,
     DroneCategorySerializer,
     PilotSerializer,
     PilotCompetitionSerializer,
+    PersonSerializer
 )
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import generics, viewsets
+from django_filters import rest_framework as filters
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter
 
 
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
@@ -17,20 +20,45 @@ class DroneCategoryViewSet(viewsets.ModelViewSet):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
     name = "dronecategory-list"
+    search_fields = ("^name",)
+    ordering_fields = ("name",)
 class DroneViewSet(viewsets.ModelViewSet):
     queryset = Drone.objects.all()
     serializer_class = DroneSerializer
     name = "drone-list"
+    filterset_fields = (
+        "drone_category",
+        "has_it_competed",
+    )
+    search_fields = ("^name",)
+    ordering_fields = (
+        "name",
+        "manufacturing_date",
+    )
 
 class PilotViewSet(viewsets.ModelViewSet):
     queryset = Pilot.objects.all()
     serializer_class = PilotSerializer
     name = "pilot-list"
+    filterset_fields = (
+        "gender",
+        "races_count",
+    )
+    search_fields = ("^name",)
+    ordering_fields = ("name", "races_count")
 
 class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = PilotCompetitionSerializer
     name = "competition-list"
+
+
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    name = "person-list"
+    search_fields = ("^name",)
+    ordering_fields = ("name",)
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -42,6 +70,7 @@ class ApiRoot(generics.GenericAPIView):
                 "drone-categories": reverse("dronecategory-list", request=request),
                 "drone": reverse("drone-list", request=request),
                 "pilots": reverse("pilot-list", request=request),
-                "competitions": reverse("competition-list", request=request)
+                "competitions": reverse("competition-list", request=request),
+                "person": reverse("person-list", request=request)
             }
         )
