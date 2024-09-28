@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "toys.apps.ToysConfig",
     # Habilita Drones application
     "drones.apps.DronesConfig",
-    # Django Filters
+    # Django Filters  <---------------------------------------------------------
     "django_filters",
 ]
 
@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#ADIÇÃO DE MÓDULOS DE FILTRAGEM COM USO DO Django Filter
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "drones.pagination.LimitOffsetPaginationWithUpperBound",
     "PAGE_SIZE": 4,

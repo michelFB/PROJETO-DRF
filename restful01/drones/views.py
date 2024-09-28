@@ -11,7 +11,7 @@ from rest_framework.reverse import reverse
 from rest_framework import generics, viewsets
 from django_filters import rest_framework as filters
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter
-
+from drones.filters import CompetitionFilter
 
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
 # É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
@@ -20,13 +20,13 @@ class DroneCategoryViewSet(viewsets.ModelViewSet):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
     name = "dronecategory-list"
-    search_fields = ("^name",)
-    ordering_fields = ("name",)
+    search_fields = ("^name",) # Busca <------------------------
+    ordering_fields = ("name",) # Ordenação <------------------------
 class DroneViewSet(viewsets.ModelViewSet):
     queryset = Drone.objects.all()
     serializer_class = DroneSerializer
     name = "drone-list"
-    filterset_fields = (
+    filterset_fields = (  # Filtro <------------------------
         "drone_category",
         "has_it_competed",
     )
@@ -51,6 +51,11 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = PilotCompetitionSerializer
     name = "competition-list"
+    filterset_class = CompetitionFilter
+    ordering_fields = (
+        "distance_in_feet",
+        "distance_achievement_date",
+    )
 
 
 class PersonViewSet(viewsets.ModelViewSet):
