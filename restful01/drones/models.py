@@ -56,7 +56,7 @@ class Competition(models.Model):
 
 def validate_even(value):
     if value % 2 != 0:
-        raise models.ValidationError("Este campo deve ser um número par.")
+        raise models.ValidationError("Este campo deve ser um número par .")
 
 class Person(models.Model):
     name = models.CharField(max_length=150, blank=False, default="", unique=True)
