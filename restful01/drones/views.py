@@ -51,7 +51,7 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = PilotCompetitionSerializer
     name = "competition-list"
-    filterset_class = CompetitionFilter
+    # filterset_class = CompetitionFilter
     ordering_fields = (
         "distance_in_feet",
         "distance_achievement_date",
@@ -68,7 +68,6 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 class ApiRoot(generics.GenericAPIView):
     name = "api-root"
-
     def get(self, request, *args, **kwargs):
         return Response(
             {
