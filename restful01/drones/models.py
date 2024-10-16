@@ -8,6 +8,7 @@ class DroneCategory(models.Model):
         ordering = ("name",)
     def __str__(self):
         return self.name
+    
 # //-------------------------------------------------------------
 class Drone(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -17,10 +18,16 @@ class Drone(models.Model):
     manufacturing_date = models.DateTimeField()
     has_it_competed = models.BooleanField(default=False)
     inserted_timestamp = models.DateTimeField(auto_now_add=True)
+    #INCLUINDO AUTENTICAÇÃO E PERMISÃO PARA ACESSO AO MODELO <- Lembrar de migra o modelo ao final
+    owner = models.ForeignKey(
+        "auth.User", related_name="drones", on_delete=models.CASCADE
+    )
     class Meta:
         ordering = ("name",)
+    
     def __str__(self):
         return self.name
+
 # //-------------------------------------------------------------
 class Pilot(models.Model):
     MALE = "M"
@@ -41,6 +48,7 @@ class Pilot(models.Model):
         ordering = ("name",)
     def __str__(self):
         return self.name
+    
 # //-------------------------------------------------------------
 class Competition(models.Model):
     pilot = models.ForeignKey(
