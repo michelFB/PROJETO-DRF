@@ -15,6 +15,8 @@ from drones.filters import CompetitionFilter
 #Definindo políticas de permissão
 from rest_framework import permissions
 from drones import custom_permissions
+#Definindo Autenticação por Token
+from rest_framework.authentication import TokenAuthentication
 
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
 # É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
@@ -60,6 +62,9 @@ class PilotViewSet(viewsets.ModelViewSet):
     )
     search_fields = ("^name",)
     ordering_fields = ("name", "races_count")
+    #ADICIONANDO AUTENTICAÇÃO POR TOKEN
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
 class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()

@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "drones.apps.DronesConfig",
     # Django Filters  <---------------------------------------------------------
     "django_filters",
+    # Token authentication
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [

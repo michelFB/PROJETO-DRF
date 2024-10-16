@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from drones.models import DroneCategory, Drone, Competition, Pilot, Person, User
+from drones.models import DroneCategory, Drone, Competition, Pilot, Person
 
 # ADICIONANDO SERIALIZADORES DE USUARIOS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class UserDroneSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,7 +15,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True)
 
     class Meta:
-        model = User
+        # model = User
         fields = (
             'url',
             'pk',
@@ -45,7 +45,7 @@ class DroneSerializer(serializers.HyperlinkedModelSerializer):
         queryset=DroneCategory.objects.all(), slug_field="name"
     )
     # Display the owner's username (read-only)
-    owner = serializers.ReadOnlyField(source="owner.username")
+    # owner = serializers.ReadOnlyField(source="owner.username")
     class Meta:
         model = Drone
         fields = (
