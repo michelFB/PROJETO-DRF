@@ -17,6 +17,7 @@ from rest_framework import permissions
 from drones import custom_permissions
 #Definindo Autenticação por Token
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.throttling import ScopedRateThrottle
 
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
 # É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
@@ -27,8 +28,15 @@ class DroneCategoryViewSet(viewsets.ModelViewSet):
     name = "dronecategory-list"
     search_fields = ("^name",) # Busca <------------------------
     ordering_fields = ("name",) # Ordenação <------------------------
-
+     #Definindo políticas de permissão
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    )
+    
 class DroneViewSet(viewsets.ModelViewSet):
+    throttle_scope = "drones"
+    throttle_classes = (ScopedRateThrottle,)
     queryset = Drone.objects.all()
     serializer_class = DroneSerializer
     name = "drone-list"
@@ -48,11 +56,14 @@ class DroneViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
         custom_permissions.IsCurrentUserOwnerOrReadOnly,
     )
+
     #Salvando informações sobre usuários autenticados
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
     
 class PilotViewSet(viewsets.ModelViewSet):
+    throttle_scope = "pilot"
+    throttle_classes = (ScopedRateThrottle,)
     queryset = Pilot.objects.all()
     serializer_class = PilotSerializer
     name = "pilot-list"
@@ -75,6 +86,14 @@ class CompetitionViewSet(viewsets.ModelViewSet):
         "distance_in_feet",
         "distance_achievement_date",
     )
+    #  #ADICIONANDO AUTENTICAÇÃO POR TOKEN
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (
+    #     permissions.IsAuthenticatedOrReadOnly,
+    #     custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    # )
+    
 
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
@@ -82,6 +101,9 @@ class PersonViewSet(viewsets.ModelViewSet):
     name = "person-list"
     search_fields = ("^name",)
     ordering_fields = ("name",)
+     #ADICIONANDO AUTENTICAÇÃO POR TOKEN
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class ApiRoot(generics.GenericAPIView):

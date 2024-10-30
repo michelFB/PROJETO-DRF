@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django_filters",
     # Token authentication
     "rest_framework.authtoken",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -66,16 +67,44 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
-        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.SearchFilter", 
     ),
     #ADIÇÃO DE MÓDULOS DE AUTENTICAÇÃO
      "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
+      "DEFAULT_THROTTLE_CLASSES": (
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ),
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "3/hour",
+        "user": "10/hour",
+        "drones": "20/hour",
+        "pilots": "15/hour",
+    },
+     # Adicionar ao final do dicionário
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 ROOT_URLCONF = 'restful01.urls'
+
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "RESTIC Back-end API",
+    "DESCRIPTION": "Your project description",
+    "VERSION": "1.0.0",
+    "SERVE INCLUDE SCHEMA": False,
+    # OTHER SETTINGS
+    "AUTHENTICATION_WHITELIST": [
+        # Lista de autenticações suportadas na documentação
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,  # Mantém a autorização no Swagger UI durante as requisições
+    },
+}
 
 TEMPLATES = [
     {
