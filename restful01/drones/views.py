@@ -52,9 +52,12 @@ class DroneViewSet(viewsets.ModelViewSet):
         "manufacturing_date",
     )
     #Definindo políticas de permissão
+    #  #ADICIONANDO AUTENTICAÇÃO POR TOKEN
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
-        custom_permissions.IsCurrentUserOwnerOrReadOnly,
+        permissions.IsAuthenticated, #Apenas Usuarios autentucados podem acessar a View
+        permissions.IsAuthenticatedOrReadOnly, #permitir acesso de leitura para todos, mas restringir modificações apenas para usuários autenticados.
+        # custom_permissions.IsCurrentUserOwnerOrReadOnly,
     )
 
     #Salvando informações sobre usuários autenticados
@@ -76,6 +79,10 @@ class PilotViewSet(viewsets.ModelViewSet):
     #ADICIONANDO AUTENTICAÇÃO POR TOKEN
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    )
 
 class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
@@ -89,10 +96,10 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     #  #ADICIONANDO AUTENTICAÇÃO POR TOKEN
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
-    # permission_classes = (
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     custom_permissions.IsCurrentUserOwnerOrReadOnly,
-    # )
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    )
     
 
 class PersonViewSet(viewsets.ModelViewSet):
