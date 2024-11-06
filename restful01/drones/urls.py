@@ -12,14 +12,14 @@ router.register(r"person", views.PersonViewSet)
 
 urlpatterns = [ 
     #   path(
-    #     "drones/",
-    #     views.DroneList.as_view(),
-    #     name=views.DroneList.name,
+    #     "drone-categories/",
+    #     views.DroneCategoryList.as_view(),
+    #     name=views.DroneCategoryList.name,
     # ),
     # path(
-    #     "drones/<int:pk>/",
-    #     views.DroneDetail.as_view(),
-    #     name=views.DroneDetail.name,
+    #     "drone-categories/<int:pk>/",
+    #     views.DroneCategoryDetail.as_view(),
+    #     name=views.DroneCategoryDetail.name,
     # ),
     path("", include(router.urls)),
     path("", views.ApiRoot.as_view(), name=views.ApiRoot.name),

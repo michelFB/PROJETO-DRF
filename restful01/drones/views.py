@@ -22,6 +22,7 @@ from rest_framework.throttling import ScopedRateThrottle
 # Aqui implementamos uma classe Viewsets - Combina a logica de um conjunto de views relacionadas em uma única classe.
 # É Uma class-based view que não fornece métodos get ou post, porém ações list() e create()
 # ModelViewSet inclui operações de CRUD, é a solução para tudo em uma só classe
+
 class DroneCategoryViewSet(viewsets.ModelViewSet):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
@@ -29,10 +30,10 @@ class DroneCategoryViewSet(viewsets.ModelViewSet):
     search_fields = ("^name",) # Busca <------------------------
     ordering_fields = ("name",) # Ordenação <------------------------
      #Definindo políticas de permissão
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
-        custom_permissions.IsCurrentUserOwnerOrReadOnly,
-    )
+    # permission_classes = (
+    #     permissions.IsAuthenticatedOrReadOnly,
+    #     custom_permissions.IsCurrentUserOwnerOrReadOnly,
+    # )
     
 class DroneViewSet(viewsets.ModelViewSet):
     throttle_scope = "drones"
