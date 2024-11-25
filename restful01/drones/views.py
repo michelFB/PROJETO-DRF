@@ -110,8 +110,8 @@ class PersonViewSet(viewsets.ModelViewSet):
     search_fields = ("^name",)
     ordering_fields = ("name",)
      #ADICIONANDO AUTENTICAÇÃO POR TOKEN
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated,)
 
 
 class ApiRoot(generics.GenericAPIView):
